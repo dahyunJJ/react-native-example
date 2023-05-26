@@ -1,0 +1,53 @@
+{
+  "diary": [
+    {
+      "id": 0,
+      "title": "사는 법 -  나태주",
+      "author": "somy",
+      "desc": "그리운 날은 그림을 그리고 쓸쓸한 날은 음악을 들었다 그리고도 남는 날은 너를 생각해야만 했다 ",
+      "image": "https://raw.githubusercontent.com/carrepe/sample_CU/master/img/1-min.png"
+    },
+    {
+      "id": 1,
+      "title": "꽃 멀 미 - 이해인",
+      "author": "somy",
+      "desc": "사람들을 너무 많이 만나면 말에 취해서 멀미가 나고, 꽃들을 너무 많이 대하면 향기에 취해서 멀미가 나지. 살아 있는 것은 아픈 것, 아름다운 것은 어지러운 것. 너무 많아도 싫지 않은 꽃을 보면서 나는 더욱 사람들을 사랑하기 시작하지. 사람들에게도 꽃처럼 향기가 있다는 걸 새롭게 배우기 시작하지.",
+      "image": "https://raw.githubusercontent.com/carrepe/sample_CU/master/img/2-min.png"
+    },
+    {
+      "id": 2,
+      "title": "너에게 묻는다 - 안도현",
+      "author": "somy",
+      "desc": "연탄재 함부로 발로 차지 마라 너는 누구에게 한 번이라도 뜨거운 사람이었느냐",
+      "image": "https://raw.githubusercontent.com/carrepe/sample_CU/master/img/3-min.png"
+    },
+    {
+      "id": 3,
+      "title": "반달 - 정호승",
+      "author": "somy",
+      "desc": "아무도 반달을 사랑하지 않는다면 반달이 보름달이 될 수 있겠는가 보름달이 반달이 되지 않는다면 사랑은 그 얼마나 오만할 것인가 ",
+      "image": "https://raw.githubusercontent.com/carrepe/sample_CU/master/img/4-min.png"
+    },
+    {
+      "id": 4,
+      "title": "꿈 - 황인숙",
+      "author": "somy",
+      "desc": "가끔 네 꿈을 꾼다 전에는 꿈이라도 꿈인 줄 모르겠더니 이제는 너를 보면 아, 꿈이로구나 알아챈다",
+      "image": "https://raw.githubusercontent.com/carrepe/sample_CU/master/img/5-min.png"
+    },
+    {
+      "id": 5,
+      "title": "우주를 건너는 법 - 박찬일",
+      "author": "somy",
+      "desc": "달팽이와 함께! 달팽이는 움직이지 않는다 다만 도달할 뿐이다",
+      "image": "https://raw.githubusercontent.com/carrepe/sample_CU/master/img/6-min.png"
+    },
+    {
+      "id": 6,
+      "title": "모과 - 서안나",
+      "author": "somy",
+      "desc": "먹지는 못하고 바라만 보다가 바라만 보며 향기만 맡다 충치처럼 꺼멓게 썩어버리는 그런 첫사랑이 내게도 있었다",
+      "image": "https://raw.githubusercontent.com/carrepe/sample_CU/master/img/7-min.png"
+    }
+  ]
+}
