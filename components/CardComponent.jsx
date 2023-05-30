@@ -22,6 +22,7 @@ export default function CardComponent({ content, navigation }) {
   return (
     <Box
       mb={8}
+      mx={8}
       maxW="80"
       rounded="lg"
       overflow="hidden"

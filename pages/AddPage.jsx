@@ -62,9 +62,9 @@ export default function AddPage({ navigation }) {
       title: title,
       author: user.email,
       desc: content,
+      image: image,
       date: getTime,
       uid: user.uid,
-      image: image,
     };
 
     // 이미지 업로드 함수 실행
