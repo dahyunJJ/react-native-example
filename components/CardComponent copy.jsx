@@ -1,3 +1,4 @@
+/////-------좋아요 기능 데이터베이스에 저장하기-------/////
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import {
@@ -17,12 +18,9 @@ import ImageBlurLoading from "react-native-image-blur-loading";
 
 import { db } from "../config/firebase";
 import { auth } from "../config/firebase";
-import { setDoc, doc, deleteDoc } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { setDoc, doc } from "firebase/firestore";
 
 export default function CardComponent({ content, navigation }) {
-  const [like, setLike] = useState(false);
-
   const goDetail = () => {
     navigation.navigate("DetailPage", { content: content });
   };
@@ -30,31 +28,19 @@ export default function CardComponent({ content, navigation }) {
   const likeFunc = async () => {
     const uid = auth.currentUser.uid;
     const did = content.date + "D";
-    let result = await doLike(uid, did, like); // doLike 실행 완료 될 때까지 기다린다
+    let result = await doLike(uid, did);
     if (result) {
       console.log("좋아요 입력");
-      if (like == true) {
-        setLike(false);
-      } else {
-        setLike(true);
-      }
     }
   };
 
-  const doLike = async (uid, did, like) => {
+  const doLike = async (uid, did) => {
     try {
       const date = new Date();
       const getTime = date.getTime();
-      if (like == false) {
-        await setDoc(doc(db, "diary", did, "likes", uid), {
-          date: getTime,
-        });
-        console.log("좋아요 저장");
-      } else {
-        await deleteDoc(doc(db, "diary", did, "likes", uid));
-        console.log("좋아요 삭제");
-      }
-
+      await setDoc(doc(db, "diary", did, "likes", uid), {
+        date: getTime,
+      });
       return true;
     } catch (err) {
       console.log("좋아요 입력 에러", err);
@@ -62,8 +48,7 @@ export default function CardComponent({ content, navigation }) {
     }
   };
   // console.log("로그인 된 uid ------ ", auth.currentUser.uid);
-  console.log("받아온 content 정보 ------ ", content);
-  // 받아온 문서 데이터 정보 안에 likes에 대한 정보가 담겨있음
+  // console.log("받아온 content 정보 ------ ", content);
   return (
     <Box
       mb={8}
@@ -153,9 +138,9 @@ export default function CardComponent({ content, navigation }) {
                 // icon={<Icon color={"indigo.800"} as={Entypo} name="heart" />}
                 icon={
                   <Icon
+                    color={"indigo.800"}
                     as={Entypo}
-                    name={like == true ? "heart" : "heart-outlined"}
-                    color={like == true ? "red.500" : "gray"}
+                    name="heart-outlined"
                   />
                 }
               ></IconButton>

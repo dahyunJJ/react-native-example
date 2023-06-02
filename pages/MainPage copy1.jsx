@@ -1,3 +1,4 @@
+////////-----MainPage Original-----////////
 import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
 import { useState, useEffect } from "react";
 

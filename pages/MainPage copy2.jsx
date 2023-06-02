@@ -1,3 +1,4 @@
+////////-----더보기 기능 추가-----////////
 import { StyleSheet, View, Alert, ActivityIndicator } from "react-native";
 import { Center, FlatList } from "native-base";
 import { useState, useEffect } from "react";
@@ -9,7 +10,6 @@ import BannerComponent from "../components/BannerComponent";
 // console.log(data.diary);
 
 import { db } from "../config/firebase";
-import { auth } from "../config/firebase";
 import {
   collection,
   getDocs,
@@ -18,15 +18,11 @@ import {
   limit,
   startAfter,
   onSnapshot,
-  getDoc,
-  doc,
 } from "firebase/firestore";
 
 export default function MainPage({ navigation }) {
   const [data, setData] = useState([]);
   const [next, setNext] = useState(0);
-
-  const currentUser = auth.currentUser;
 
   // useEffect(() => {
   //   const textalret = navigation.addListener('focus', (e) => {
@@ -41,8 +37,9 @@ export default function MainPage({ navigation }) {
       e.preventDefault();
       Alert.alert("경고", "로그인페이지로 갈 수 없습니다");
     });
-
-    getData(setNext, setData);
+    setTimeout(() => {
+      readyData();
+    }, 500);
 
     // 실시간 데이터 가져오기
     const mainDataList = onSnapshot(
@@ -60,46 +57,33 @@ export default function MainPage({ navigation }) {
     };
   }, []);
 
-  // const readyData = async () => {
-  //   const data = await getData(setNext);
-  //   setData(data);
-  // };
+  const readyData = async () => {
+    const data = await getData(setNext);
+    setData(data);
+  };
 
   console.log("다음" + next);
 
-  async function getData(setNext, setData) {
+  async function getData(setNext) {
     try {
-      const data = [];
+      let data = [];
       const first = query(
         collection(db, "diary"),
-        orderBy("date", "desc"),
+        orderBy("date", "desc"), // js 문법 : 최근 날짜 기준으로 나열
         limit(2)
       );
       const snapshot = await getDocs(first);
-      const last = snapshot.docs[snapshot.docs.length - 1];
-      setNext(last.data().date);
-      for (const docList of snapshot.docs) {
+      snapshot.docs.map((doc) => {
         console.log("[페이지네이션 01]");
-        const list = docList.data();
-        const likesRef = doc(
-          db,
-          "diary",
-          `${list.date}D`,
-          "likes",
-          currentUser.uid
-        );
-        const like = await getDoc(likesRef);
-        console.log("좋아요정보 -----------------------", like.data());
-        // list.like = !!like.data();
-        // !! : 현재 가지고 있는 값을 true와 false로 반환하라는 의미. 아래는 풀어쓴 버전
-        if (like.data() == undefined) {
-          list.like = false;
-        } else {
-          list.like = true;
-        }
-        data.push(list);
+        data.push(doc.data());
+      });
+      let last;
+      if (snapshot.docs.length !== 0) {
+        last = snapshot.docs[snapshot.docs.length - 1];
       }
-      setData(data);
+      setNext(last.data().date);
+      console.log(last.data().date);
+      return data;
     } catch (err) {
       console.log(err);
       return false;
@@ -108,29 +92,24 @@ export default function MainPage({ navigation }) {
 
   async function getNextData(nextDate, setNext) {
     try {
-      const data = [];
+      console.log("불러올 다음 date: " + nextDate);
+      let data = [];
       const next = query(
         collection(db, "diary"),
         orderBy("date", "desc"),
-        startAfter(nextDate),
+        startAfter(nextDate), // startAfter : 최종 불러 온 위의 내용들의 다음 내용들
         limit(2)
       );
       const snapshot = await getDocs(next);
-      for (const docList of snapshot.docs) {
-        const list = docList.data();
-        const likesRef = doc(
-          db,
-          "diary",
-          `${list.date}D`,
-          "likes",
-          currentUser.uid
-        );
-        const like = await getDoc(likesRef);
-        list.like = !!like.data();
-        data.push(list);
-      }
+      snapshot.docs.map((doc) => {
+        console.log("[페이지네이션 Next]");
+        doc.data();
+        data.push(doc.data());
+      });
+      console.log(snapshot.docs.length);
+      let last;
       if (snapshot.docs.length !== 0) {
-        const last = snapshot.docs[snapshot.docs.length - 1];
+        last = snapshot.docs[snapshot.docs.length - 1];
         setNext(last.data().date);
         return data;
       } else {
@@ -141,6 +120,19 @@ export default function MainPage({ navigation }) {
       return false;
     }
   }
+
+  // firebase의 diary db에서 모든 데이터 가져온다.
+  // 가져온 데이터를 data state에 저장한다.
+  // const getData = async () => {
+  //   const diaryRef = collection(db, "diary");
+  //   const diarySnapshot = await getDocs(diaryRef);
+  //   let data = [];
+  //   diarySnapshot.docs.map((doc) => {
+  //     // data.push(doc.data());
+  //     data.unshift(doc.data()); // unshift : 위쪽으로 쌓임
+  //   });
+  //   return data;
+  // };
 
   return (
     <View>
